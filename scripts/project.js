@@ -1,0 +1,1 @@
+set_cookie("shopping_cart_items", items);

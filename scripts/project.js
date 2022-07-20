@@ -1,8 +1,14 @@
-$('.grid').masonry({
-    // options
-    itemSelector: '.grid-item',
-    columnWidth: 200
-  });
+class Catalog {
+    function load_data_with_fetch() {
+        fetch("https://fakestoreapi.com/products").
+            then(response => response.json()).
+            then((json) => {
+				console.log(json);
+            });
+        }
+}
+
+
 
 /* set_cookie("shopping_cart_items", items); // to store data for shopping cart */
 

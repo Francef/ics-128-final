@@ -1,0 +1,25 @@
+button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    margin: 10px 20px;
+    float: right;
+    border-radius: 5px
+}
+.addToCart {
+    padding: 10px 15px;
+}
+.container {
+    margin-top: 20px;
+}
+#checkout {
+    background-color: #12a526;
+    padding: 15px 15px;
+    float: right;
+}
+#emptyCart {
+    background-color: #e08c1e;
+    padding: 15px 15px;
+    float: left;
+}

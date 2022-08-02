@@ -85,7 +85,8 @@ class Catalog {
         for (let product_id in basketItems) {
             let product = this.getItem(product_id);
             let itemCount = basketItems[product_id];
-            let itemSubtotal = product.price * itemCount;
+            product.price = parseFloat(product.price).toFixed(2);
+            let itemSubtotal = parseFloat(product.price * itemCount).toFixed(2);
             basket += `<tr><td><button class='btn btn-danger' id='deleteItem'><span class='material-symbols-outlined'>
             delete </span></button><td>${product.title}</td><td>${itemCount}</td><td>${product.price}</td><td>${itemSubtotal}</td></tr>`;
         }
@@ -109,7 +110,7 @@ class Catalog {
     }
 
     emptyCart() {
-        set_cookie("shopping_cart_items", []);
+        set_cookie("shopping_cart_items", {});
     }
 
     deleteFromBasket(product_id) {

@@ -30,3 +30,10 @@ button {
   'GRAD' 0,
   'opsz' 48
 }
+#navbar {
+    padding-left: 1em;
+}
+.tab-content {
+    padding-left: 1em;
+    padding-right: 1em;
+}

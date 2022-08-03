@@ -37,3 +37,14 @@ button {
     padding-left: 1em;
     padding-right: 1em;
 }
+
+#invalid-cc, #invalid-mm, #invalid-yy, #invalid-cvv, #invalid-fname, #invalid-lname, 
+#invalid-address, #invalid-city, #invalid-province, #invalid-country, #invalid-postal, 
+#invalid-phone, #invalid-email  {
+    color: red;
+}
+
+#valid-cc, #valid-mm, #valid-yy, #valid-cvv, #valid-fname, #valid-lname, #valid-address, 
+#valid-city, #valid-province, #valid-country, #valid-postal, #valid-phone, #valid-email {
+    color: green;
+}

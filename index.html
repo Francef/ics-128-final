@@ -30,11 +30,303 @@
 				</select>
 		</div>
 			<div id="loadShoppingCart"></div>
-			<button id="checkout">Checkout</button>
-			<button id="emptyCart">Empty Cart</button> 
+			<!-- Checkout modal trigger -->
+			<button id="checkout" type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#checkoutModal">Checkout</button>
+			<button id="emptyCart">Empty Cart</button>			
 		</div>
 	</div>
 	<br>
+	<!-- Checkout Modal Start -->
+	<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+					<div class="modal-header">
+						<h6 class="modal-title" id="loginModalLabel">Checkout</h6>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+						<li class="nav-item" role="presentation">
+						  <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#payment" type="button" role="tab" aria-controls="pills-payment" aria-selected="true">Payment Method</button>
+						</li>
+						<li class="nav-item" role="presentation">
+						  <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#billing" type="button" role="tab" aria-controls="pills-billing" aria-selected="false">Billing Details</button>
+						</li>
+						<li class="nav-item" role="presentation">
+						  <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#shipping" type="button" role="tab" aria-controls="pills-shipping" aria-selected="false">Shipping Details</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#confirmation" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Order Confirmation</button>
+						</li>
+					  </ul>
+					  <div class="tab-content" id="pills-tabContent">
+						<div class="tab-pane fade show active" id="payment" role="tabpanel" aria-labelledby="pills-payment-tab">
+							<h5>Payment Method</h5>	
+							<div class="row">
+								<div class="col-lg-10">
+								  <label for="cc-number">Credit card number</label>
+								  <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+								  <div class="invalid-feedback">
+									Credit card number is required
+								  </div>
+								</div>
+							  </div>
+
+							  <div class="row">
+								<div class="col-md-3 mb-3">
+								  <label for="cc-month">Expiration Month</label>
+								  <input type="text" class="form-control" id="cc-month" placeholder="" required="">
+								  <div class="invalid-feedback">
+									Expiration date required
+								  </div>
+								</div>
+								<div class="col-md-3 mb-3">
+									<label for="cc-year">Expiration Year</label>
+									<input type="text" class="form-control" id="cc-year" placeholder="" required="">
+									<div class="invalid-feedback">
+									  Expiration date required
+									</div>
+								  </div>
+								<div class="col-md-3 mb-3">
+								  <label for="cc-cvv">CVV</label>
+								  <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+								  <div class="invalid-feedback">
+									Security code required
+								  </div>
+								</div>
+							  </div>
+
+							<button type="button" id="continue" class="btn btn-primary">Continue
+							</button>
+						</div>
+						<div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="pills-billing-tab">
+							<h5>Billing Details</h5>	
+						
+							<div class="row">
+								<div class="col-md-6 mb-3">
+								  <label for="firstName">First name</label>
+								  <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+								  <div class="invalid-feedback">
+									Valid first name is required.
+								  </div>
+								</div>
+								<div class="col-md-6 mb-3">
+								  <label for="lastName">Last name</label>
+								  <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+								  <div class="invalid-feedback">
+									Valid last name is required.
+								  </div>
+								</div>
+							  </div>
+
+							  <div class="mb-3">
+								<label for="address">Address</label>
+								<input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+								<div class="invalid-feedback">
+								  Please enter your shipping address.
+								</div>
+							  </div>
+							  <div class="mb-3">
+								<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+								<input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+							  </div>
+
+							  <div class="row">
+								
+								<div class="col-md-6 mb-3">
+									<label for="city">City</label>
+									<input type="text" class="form-control" id="city" placeholder="City" value="" required="">
+									<div class="invalid-feedback">
+									  Valid city is required.
+									</div>
+								  </div>
+
+								<div class="col-md-4 mb-3">
+									<label for="province">Province/Territory</label>
+									<select id="province" name="province">
+										<option value="">Select</option>
+										<option value="AB">Alberta</option>
+										<option value="BC">British Columbia</option>
+										<option value="MB">Manitoba</option>
+										<option value="NB">New Brunswick</option>
+										<option value="NL">Newfoundland &amp; Labrador</option>
+										<option value="NT">Northwest Territories</option>
+										<option value="NS">Nova Scotia</option>
+										<option value="NU">Nunavut</option>
+										<option value="ON">Ontario</option>
+										<option value="PEI">Prince Edward Island</option>
+										<option value="QC">Quebec</option>
+										<option value="SK">Saskatchewan</option>
+										<option value="YT">Yukon Territory</option>
+									</select>
+									<div class="invalid-feedback">
+									Please provide a valid province.
+									</div>
+								</div>
+							</div>
+
+							  <div class="row">
+								<div class="col-md-5 mb-3">
+								  <label for="country">Country</label>
+								  <select class="custom-select d-block w-100" id="country" required="">
+									<option value="">Choose...</option>
+									<option value="CAN">Canada</option>
+									<option value="USA">United States</option>
+									<option value="UK">United Kingdom</option>
+								  </select>
+								  <div class="invalid-feedback">
+									Please select a valid country.
+								  </div>
+								</div>
+
+								<div class="col-md-3 mb-3">
+								  <label for="postal">Postal Code</label>
+								  <input type="text" class="form-control" id="postal" placeholder="" required="">
+								  <div class="invalid-feedback">
+									Postal code required.
+								  </div>
+								</div>
+							  </div>
+
+							  <div class="mb-3">
+								<label for="phone">Phone Number</label>
+								<input type="text" class="form-control" id="phone" placeholder="(250)555-1234">
+								<div class="invalid-feedback">
+								  Please enter a valid phone number.
+								</div>
+							  </div>
+
+							  <div class="mb-3">
+								<label for="email">Email</label>
+								<input type="email" class="form-control" id="email" placeholder="you@example.com">
+								<div class="invalid-feedback">
+								  Please enter a valid email address.
+								</div>
+							  </div>
+						</div>
+
+						<div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="pills-shipping-tab">
+							
+							<h5>Shipping Details</h5>
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" id="same-address">
+								<label for="same-address">Shipping address is the same as my billing address</label>
+							</div>
+							<div id="shippingInfo">
+								<div class="row">
+									<div class="col-md-6 mb-3">
+									<label for="firstName">First name</label>
+									<input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+									<div class="invalid-feedback">
+										Valid first name is required.
+									</div>
+									</div>
+									<div class="col-md-6 mb-3">
+									<label for="lastName">Last name</label>
+									<input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+									<div class="invalid-feedback">
+										Valid last name is required.
+									</div>
+									</div>
+								</div>
+
+								<div class="mb-3">
+									<label for="address">Address</label>
+									<input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+									<div class="invalid-feedback">
+									Please enter your shipping address.
+									</div>
+								</div>
+								<div class="mb-3">
+									<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+									<input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+								</div>
+
+								<div class="row">
+									
+									<div class="col-md-6 mb-3">
+										<label for="city">City</label>
+										<input type="text" class="form-control" id="city" placeholder="City" value="" required="">
+										<div class="invalid-feedback">
+										Valid city is required.
+										</div>
+									</div>
+
+									<div class="col-md-4 mb-3">
+										<label for="province">Province/Territory</label>
+										<select id="province" name="province">
+											<option value="">Select</option>
+											<option value="AB">Alberta</option>
+											<option value="BC">British Columbia</option>
+											<option value="MB">Manitoba</option>
+											<option value="NB">New Brunswick</option>
+											<option value="NL">Newfoundland &amp; Labrador</option>
+											<option value="NT">Northwest Territories</option>
+											<option value="NS">Nova Scotia</option>
+											<option value="NU">Nunavut</option>
+											<option value="ON">Ontario</option>
+											<option value="PEI">Prince Edward Island</option>
+											<option value="QC">Quebec</option>
+											<option value="SK">Saskatchewan</option>
+											<option value="YT">Yukon Territory</option>
+										</select>
+										<div class="invalid-feedback">
+										Please provide a valid province.
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-5 mb-3">
+									<label for="country">Country</label>
+									<select class="custom-select d-block w-100" id="country" required="">
+										<option value="">Choose...</option>
+										<option value="CAN">Canada</option>
+										<option value="USA">United States</option>
+										<option value="UK">United Kingdom</option>
+									</select>
+									<div class="invalid-feedback">
+										Please select a valid country.
+									</div>
+									</div>
+
+									<div class="col-md-3 mb-3">
+									<label for="postal">Postal Code</label>
+									<input type="text" class="form-control" id="postal" placeholder="" required="">
+									<div class="invalid-feedback">
+										Postal code required.
+									</div>
+									</div>
+								</div>
+
+								<div class="mb-3">
+									<label for="phone">Phone Number</label>
+									<input type="text" class="form-control" id="phone" placeholder="(250)555-1234">
+									<div class="invalid-feedback">
+									Please enter a valid phone number.
+									</div>
+								</div>
+
+								<div class="mb-3">
+									<label for="email">Email</label>
+									<input type="email" class="form-control" id="email" placeholder="you@example.com">
+									<div class="invalid-feedback">
+									Please enter a valid email address for shipping updates.
+									</div>
+								</div>
+							  </div>
+
+						</div>
+						<div class="tab-pane fade" id="confirmation" role="tabpanel" aria-labelledby="pills-confirmation-tab">
+							
+							<h5>Order Confirmation</h5>
+						
+						</div>
+					  </div>
+			</div>
+		</div>
+	</div>
+	<!--end modal-->
 	<div class="container">
 		<br>
 		<div class="row" data-masonry='{"percentPosition": true }' id="catalog">

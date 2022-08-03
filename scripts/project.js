@@ -87,7 +87,7 @@ class Catalog {
             let itemCount = basketItems[product_id];
             product.price = parseFloat(product.price).toFixed(2);
             let itemSubtotal = parseFloat(product.price * itemCount).toFixed(2);
-            basket += `<tr><td><button class='btn btn-danger' id='deleteItem'><span class='material-symbols-outlined'>
+            basket += `<tr><td><button class='btn btn-danger deleteItem' data-id='${product_id}'><span class='material-symbols-outlined'>
             delete </span></button><td>${product.title}</td><td>${itemCount}</td><td>${product.price}</td><td>${itemSubtotal}</td></tr>`;
         }
         if (basket!= "") {
@@ -102,10 +102,14 @@ class Catalog {
             catalog.renderCartItems();
         });
 
-        $(`#deleteItem`).click(function() {
-            catalog.deleteFromBasket($(this).attr(`data id`));
+        $(`.deleteItem`).click(function() {
+            catalog.deleteFromBasket($(this).attr(`data-id`));
             catalog.renderCartItems();
         });
+
+        /*$(`#checkout`).click(function() {
+            $(`.offcanvas`);
+        })*/
 
     }
 
@@ -149,7 +153,16 @@ $(`#viewCart`).click(function() {
 });
 
 
+}
+}
 
-}
-}
 let catalog = new Catalog();
+
+// check to see if user has checked/unchecked the "shipping address is same as billing address" box
+$(`#same-address`).change(function() {
+    if(this.checked) {
+        $(`#shippingInfo`).hide();
+} else {
+    $(`#shippingInfo`).show();
+}});
+

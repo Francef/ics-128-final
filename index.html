@@ -143,6 +143,24 @@
 								</div>
 							  </div>
 
+							  <div class="row">
+								<div class="col-md-5 mb-3">
+									<label for="country">Country</label>
+									<select class="custom-select d-block w-100" id="country" required="">
+									  <option value="">Choose...</option>
+									  <option value="CAN">Canada</option>
+									  <option value="USA">United States</option>
+									  <option value="UK">United Kingdom</option>
+									</select>
+									<div id="invalid-country">
+									  Valid country is required.
+									</div>
+									<div id="valid-country">
+									  Valid
+									</div>
+								  </div>
+							  </div>
+
 							  <div class="mb-3">
 								<label for="address">Address</label>
 								<input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
@@ -171,7 +189,7 @@
 									</div>
 								</div>
 
-								<div class="col-md-4 mb-3">
+								<div class="col-md-4 mb-3" id="divProvince">
 									<label for="province">Province/Territory</label>
 									<select id="province" name="province">
 										<option value="">Select</option>
@@ -196,26 +214,75 @@
 										Valid
 									  </div>
 								</div>
-							</div>
+							
 
-							  <div class="row">
-								<div class="col-md-5 mb-3">
-								  <label for="country">Country</label>
-								  <select class="custom-select d-block w-100" id="country" required="">
-									<option value="">Choose...</option>
-									<option value="CAN">Canada</option>
-									<option value="USA">United States</option>
-									<option value="UK">United Kingdom</option>
-								  </select>
-								  <div id="invalid-country">
-									Valid country is required.
+							<div class="col-md-4 mb-3" id="divState">
+								<label for="state">State</label>
+								<select id="state" name="state">
+									<option value="">Select</option>
+									<option value="AL">Alabama</option>
+									<option value="AK">Alaska</option>
+									<option value="AZ">Arizona</option>
+									<option value="AR">Arkansas</option>
+									<option value="CA">California</option>
+									<option value="CO">Colorado</option>
+									<option value="CT">Connecticut</option>
+									<option value="DE">Delaware</option>
+									<option value="DC">District Of Columbia</option>
+									<option value="FL">Florida</option>
+									<option value="GA">Georgia</option>
+									<option value="HI">Hawaii</option>
+									<option value="ID">Idaho</option>
+									<option value="IL">Illinois</option>
+									<option value="IN">Indiana</option>
+									<option value="IA">Iowa</option>
+									<option value="KS">Kansas</option>
+									<option value="KY">Kentucky</option>
+									<option value="LA">Louisiana</option>
+									<option value="ME">Maine</option>
+									<option value="MD">Maryland</option>
+									<option value="MA">Massachusetts</option>
+									<option value="MI">Michigan</option>
+									<option value="MN">Minnesota</option>
+									<option value="MS">Mississippi</option>
+									<option value="MO">Missouri</option>
+									<option value="MT">Montana</option>
+									<option value="NE">Nebraska</option>
+									<option value="NV">Nevada</option>
+									<option value="NH">New Hampshire</option>
+									<option value="NJ">New Jersey</option>
+									<option value="NM">New Mexico</option>
+									<option value="NY">New York</option>
+									<option value="NC">North Carolina</option>
+									<option value="ND">North Dakota</option>
+									<option value="OH">Ohio</option>
+									<option value="OK">Oklahoma</option>
+									<option value="OR">Oregon</option>
+									<option value="PA">Pennsylvania</option>
+									<option value="RI">Rhode Island</option>
+									<option value="SC">South Carolina</option>
+									<option value="SD">South Dakota</option>
+									<option value="TN">Tennessee</option>
+									<option value="TX">Texas</option>
+									<option value="UT">Utah</option>
+									<option value="VT">Vermont</option>
+									<option value="VA">Virginia</option>
+									<option value="WA">Washington</option>
+									<option value="WV">West Virginia</option>
+									<option value="WI">Wisconsin</option>
+									<option value="WY">Wyoming</option>
+								</select>
+								<div id="invalid-state">
+									Valid state is required.
 								  </div>
-								  <div id="valid-country">
+								  <div id="valid-state">
 									Valid
 								  </div>
-								</div>
+							</div>
+						</div>
 
-								<div class="col-md-3 mb-3">
+							  <div class="row">
+								<div class="col-md-3 mb-3" id="divPostal">
 								  <label for="postal">Postal Code</label>
 								  <input type="text" class="form-control" id="postal" placeholder="" required="">
 								  <div id="invalid-postal">
@@ -225,7 +292,34 @@
 									Valid
 								  </div>
 								</div>
+							  
+							  
+							  <div class="col-md-3 mb-3" id="divzip">
+								<label for="zip">Zip Code</label>
+								<input type="text" class="form-control" id="zip" placeholder="" required="">
+								<div id="invalid-zip">
+								  Valid zip code is required.
+								</div>
+								<div id="valid-zip">
+								  Valid
+								</div>
 							  </div>
+							
+
+							<div class="col-md-3 mb-3" id="divUkPostal">
+								<label for="ukpostal">UK Postal Code</label>
+								<input type="text" class="form-control" id="ukpostal" placeholder="" required="">
+								<div id="invalid-ukpostal">
+								  Valid UK postal code is required.
+								</div>
+								<div id="valid-ukpostal">
+								  Valid
+								</div>
+							  </div>
+							</div>
+						
+
+
 
 							  <div class="mb-3">
 								<label for="phone">Phone Number</label>
@@ -266,58 +360,76 @@
 							<form id="shippingForm" class="">
 									<div class="row">
 										<div class="col-md-6 mb-3">
-										  <label for="firstName">First name</label>
-										  <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
-										  <div id="invalid-fname">
+										  <label for="sfirstName">First name</label>
+										  <input type="text" class="form-control" id="sfirstName" placeholder="" value="" required="">
+										  <div id="invalid-sfname">
 											Valid first name required
 										  </div>
-										  <div id="valid-fname">
+										  <div id="valid-sfname">
 											Valid
 										  </div>
 										</div>
 										<div class="col-md-6 mb-3">
-										  <label for="lastName">Last name</label>
-										  <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
-										  <div id="invalid-lname">
+										  <label for="slastName">Last name</label>
+										  <input type="text" class="form-control" id="slastName" placeholder="" value="" required="">
+										  <div id="invalid-slname">
 											Valid last name required
 										  </div>
-										  <div id="valid-lname">
+										  <div id="valid-slname">
 											Valid
 										  </div>
 										</div>
 									  </div>
+									  
+									  <div class="row">
+										<div class="col-md-5 mb-3">
+											<label for="scountry">Country</label>
+											<select class="custom-select d-block w-100" id="scountry" required="">
+											  <option value="">Choose...</option>
+											  <option value="CAN">Canada</option>
+											  <option value="USA">United States</option>
+											  <option value="UK">United Kingdom</option>
+											</select>
+											<div id="invalid-scountry">
+											  Valid country is required.
+											</div>
+											<div id="valid-scountry">
+											  Valid
+											</div>
+										  </div>
+									  </div>
 		
 									  <div class="mb-3">
-										<label for="address">Address</label>
-										<input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
-										<div id="invalid-address">
+										<label for="saddress">Address</label>
+										<input type="text" class="form-control" id="saddress" placeholder="1234 Main St" required="">
+										<div id="invalid-saddress">
 											Valid address required
 										  </div>
-										  <div id="valid-address">
+										  <div id="valid-saddress">
 											Valid
 										  </div>
 									  </div>
 									  <div class="mb-3">
-										<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-										<input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+										<label for="saddress2">Address 2 <span class="text-muted">(Optional)</span></label>
+										<input type="text" class="form-control" id="saddress2" placeholder="Apartment or suite">
 									  </div>
 		
 									  <div class="row">
 										
 										<div class="col-md-6 mb-3">
-											<label for="city">City</label>
-											<input type="text" class="form-control" id="city" placeholder="City" value="" required="">
-											<div id="invalid-city">
+											<label for="scity">City</label>
+											<input type="text" class="form-control" id="scity" placeholder="City" value="" required="">
+											<div id="invalid-scity">
 											  Valid city is required.
 											</div>
-											<div id="valid-city">
+											<div id="valid-scity">
 												Valid
 											</div>
 										</div>
 		
-										<div class="col-md-4 mb-3">
-											<label for="province">Province/Territory</label>
-											<select id="province" name="province">
+										<div class="col-md-4 mb-3" id="divsProvince">
+											<label for="sprovince">Province/Territory</label>
+											<select id="sprovince" name="province">
 												<option value="">Select</option>
 												<option value="AB">Alberta</option>
 												<option value="BC">British Columbia</option>
@@ -333,62 +445,125 @@
 												<option value="SK">Saskatchewan</option>
 												<option value="YT">Yukon Territory</option>
 											</select>
-											<div id="invalid-province">
+											<div id="invalid-sprovince">
 												Valid province is required.
 											  </div>
-											  <div id="valid-province">
+											  <div id="valid-sprovince">
 												Valid
 											  </div>
 										</div>
+
+										<div class="col-md-4 mb-3" id="divsState">
+											<label for="sstate">State</label>
+											<select id="sstate" name="state">
+												<option value="">Select</option>
+												<option value="AL">Alabama</option>
+												<option value="AK">Alaska</option>
+												<option value="AZ">Arizona</option>
+												<option value="AR">Arkansas</option>
+												<option value="CA">California</option>
+												<option value="CO">Colorado</option>
+												<option value="CT">Connecticut</option>
+												<option value="DE">Delaware</option>
+												<option value="DC">District Of Columbia</option>
+												<option value="FL">Florida</option>
+												<option value="GA">Georgia</option>
+												<option value="HI">Hawaii</option>
+												<option value="ID">Idaho</option>
+												<option value="IL">Illinois</option>
+												<option value="IN">Indiana</option>
+												<option value="IA">Iowa</option>
+												<option value="KS">Kansas</option>
+												<option value="KY">Kentucky</option>
+												<option value="LA">Louisiana</option>
+												<option value="ME">Maine</option>
+												<option value="MD">Maryland</option>
+												<option value="MA">Massachusetts</option>
+												<option value="MI">Michigan</option>
+												<option value="MN">Minnesota</option>
+												<option value="MS">Mississippi</option>
+												<option value="MO">Missouri</option>
+												<option value="MT">Montana</option>
+												<option value="NE">Nebraska</option>
+												<option value="NV">Nevada</option>
+												<option value="NH">New Hampshire</option>
+												<option value="NJ">New Jersey</option>
+												<option value="NM">New Mexico</option>
+												<option value="NY">New York</option>
+												<option value="NC">North Carolina</option>
+												<option value="ND">North Dakota</option>
+												<option value="OH">Ohio</option>
+												<option value="OK">Oklahoma</option>
+												<option value="OR">Oregon</option>
+												<option value="PA">Pennsylvania</option>
+												<option value="RI">Rhode Island</option>
+												<option value="SC">South Carolina</option>
+												<option value="SD">South Dakota</option>
+												<option value="TN">Tennessee</option>
+												<option value="TX">Texas</option>
+												<option value="UT">Utah</option>
+												<option value="VT">Vermont</option>
+												<option value="VA">Virginia</option>
+												<option value="WA">Washington</option>
+												<option value="WV">West Virginia</option>
+												<option value="WI">Wisconsin</option>
+												<option value="WY">Wyoming</option>
+											</select>
+											<div id="invalid-sstate">
+												Valid state is required.
+											  </div>
+											  <div id="valid-sstate">
+												Valid
+											  </div>
+										</div>
+
 									</div>
 		
 									  <div class="row">
-										<div class="col-md-5 mb-3">
-										  <label for="country">Country</label>
-										  <select class="custom-select d-block w-100" id="country" required="">
-											<option value="">Choose...</option>
-											<option value="CAN">Canada</option>
-											<option value="USA">United States</option>
-											<option value="UK">United Kingdom</option>
-										  </select>
-										  <div id="invalid-country">
-											Valid country is required.
-										  </div>
-										  <div id="valid-country">
-											Valid
-										  </div>
-										</div>
 		
-										<div class="col-md-3 mb-3">
-										  <label for="postal">Postal Code</label>
-										  <input type="text" class="form-control" id="postal" placeholder="" required="">
-										  <div id="invalid-postal">
+										<div class="col-md-3 mb-3" id="divsPostal">
+										  <label for="spostal">Postal Code</label>
+										  <input type="text" class="form-control" id="spostal" placeholder="" required="">
+										  <div id="invalid-spostal">
 											Valid postal code is required.
 										  </div>
-										  <div id="valid-postal">
+										  <div id="valid-spostal">
 											Valid
 										  </div>
 										</div>
+									  
+									  
+									  <div class="col-md-3 mb-3" id="divszip">
+										<label for="szip">Zip Code</label>
+										<input type="text" class="form-control" id="szip" placeholder="" required="">
+										<div id="invalid-szip">
+										  Valid zip code is required.
+										</div>
+										<div id="valid-szip">
+										  Valid
+										</div>
 									  </div>
+									
+
+									<div class="col-md-3 mb-3" id="divsUkPostal">
+										<label for="sukpostal">UK Postal Code</label>
+										<input type="text" class="form-control" id="sukpostal" placeholder="" required="">
+										<div id="invalid-sukpostal">
+										  Valid UK postal code is required.
+										</div>
+										<div id="valid-sukpostal">
+										  Valid
+										</div>
+									  </div>
+									</div>
 		
 									  <div class="mb-3">
-										<label for="phone">Phone Number</label>
-										<input type="text" class="form-control" id="phone" placeholder="(250)555-1234">
-										<div id="invalid-phone">
+										<label for="sphone">Phone Number</label>
+										<input type="text" class="form-control" id="sphone" placeholder="(250)555-1234">
+										<div id="invalid-sphone">
 											Valid phone number is required.
 										  </div>
-										  <div id="valid-phone">
-											Valid
-										  </div>
-									  </div>
-		
-									  <div class="mb-3">
-										<label for="email">Email</label>
-										<input type="text" class="form-control" id="email" placeholder="you@example.com">
-										<div id="invalid-email">
-											Valid email is required.
-										  </div>
-										  <div id="valid-email">
+										  <div id="valid-sphone">
 											Valid
 										  </div>
 									  </div>

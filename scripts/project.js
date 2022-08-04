@@ -11,6 +11,7 @@ class Catalog {
     }
     API_URL = "https://fakestoreapi.com/products";
     CURRENCY_API = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/cad.json";
+    BACKUP_API_URL = "https://deepblue.camosun.bc.ca/~c0180354/ics128/final/fakestoreapi.json";
     
     load_currency_data() {
         fetch(this.CURRENCY_API).
@@ -30,6 +31,11 @@ class Catalog {
             then((json) => {
                 this.product_data = json;
                 this.render_catalog();
+            }).catch(function() {
+                fetch(this.BACKUP_API_URL).then(response => response.json()).then(json => {
+                    this.product_data = json;
+                    this.render_catalog();
+                })
             });
     }
     /* renders the items and data on the page */
@@ -91,7 +97,7 @@ class Catalog {
             delete </span></button><td>${product.title}</td><td>${itemCount}</td><td>${product.price}</td><td>${itemSubtotal}</td></tr>`;
         }
         if (basket!= "") {
-            basket = `<table id='table'><tr><th>Item</th><th>Qty</th><th>Price</th><th>Item Subtotal</th></tr>` + basket + `</table>`;
+            basket = `<table id='table' class='table'><tr><th>&nbsp;</th><th>Item</th><th>Qty</th><th>Price</th><th>Item Subtotal</th></tr>` + basket + `</table>`;
         } else {
             basket = "Your cart is empty.";
         }
@@ -126,6 +132,7 @@ add_event_handlers() {
  $(".addToCart").click(function() {
     //get the product id that had its "add to cart" button clicked
     var product_id = $(this).attr("data-id");
+    var currentItem = this;
     var cart_items = get_cookie("shopping_cart_items"); // get the data stored as a cookie
 
     // initialize the cart items if it returns null
@@ -140,7 +147,8 @@ add_event_handlers() {
 
     cart_items[product_id]++;
 
-    $(this).prepend(`<span class="badge badge-light">` + cart_items[product_id] + `</span>`); // !!!!!!!!!!!!!!!THIS DOESN'T WORK GREAT :/ ADDS MULTIPLE NUMBERS
+    
+    $(currentItem).html(`<span class='badge badge-light'>Add to Cart ${cart_items[product_id]}</span>`); // display the amount of the current item in the Add to Cart button
     set_cookie("shopping_cart_items", cart_items); // setting the cart items back to the cookie storage
 });
 
@@ -176,15 +184,117 @@ $(`#invalid-city`).hide();
 $(`#valid-city`).hide();
 $(`#invalid-province`).hide();
 $(`#valid-province`).hide();
+$(`#invalid-state`).hide();
+$(`#valid-state`).hide();
 $(`#invalid-country`).hide();
 $(`#valid-country`).hide();
 $(`#invalid-postal`).hide();
 $(`#valid-postal`).hide();
+$(`#invalid-zip`).hide();
+$(`#valid-zip`).hide();
+$(`#invalid-ukpostal`).hide();
+$(`#valid-ukpostal`).hide();
 $(`#invalid-phone`).hide();
 $(`#valid-phone`).hide();
 $(`#invalid-email`).hide();
 $(`#valid-email`).hide();
 
+$(`#invalid-sfname`).hide();
+$(`#valid-sfname`).hide();
+$(`#invalid-slname`).hide();
+$(`#valid-slname`).hide();
+$(`#invalid-saddress`).hide();
+$(`#valid-saddress`).hide();
+$(`#invalid-scity`).hide();
+$(`#valid-scity`).hide();
+$(`#invalid-sprovince`).hide();
+$(`#valid-sprovince`).hide();
+$(`#invalid-sstate`).hide();
+$(`#valid-sstate`).hide();
+$(`#invalid-scountry`).hide();
+$(`#valid-scountry`).hide();
+$(`#invalid-spostal`).hide();
+$(`#valid-spostal`).hide();
+$(`#invalid-szip`).hide();
+$(`#valid-szip`).hide();
+$(`#invalid-sukpostal`).hide();
+$(`#valid-sukpostal`).hide();
+$(`#invalid-sphone`).hide();
+$(`#valid-sphone`).hide();
+
+// in billing details hide province/state/postal/zip code until a country is selected
+
+$(`#divProvince`).hide();
+$(`#divState`).hide();
+$(`#divPostal`).hide();
+$(`#divzip`).hide();
+$(`#divUkPostal`).hide();
+
+$(`#country`).change(function () {
+    let selectedCountry = $(`#country`).val();
+    if (selectedCountry === "") {
+        $(`#divProvince`).hide();
+        $(`#divState`).hide();
+        $(`#divPostal`).hide();
+        $(`#divzip`).hide();
+        $(`#divUkPostal`).hide();
+    } else if (selectedCountry === "CAN") {
+        $(`#divProvince`).show();
+        $(`#divPostal`).show();
+        $(`#divState`).hide();
+        $(`#divzip`).hide();
+        $(`#divUkPostal`).hide();
+    } else if (selectedCountry === "USA") {
+        $(`#divState`).show();
+        $(`#divProvince`).hide();
+        $(`#divzip`).show();
+        $(`#divPostal`).hide();
+        $(`#divUkPostal`).hide();
+    } else if (selectedCountry === "UK") {
+        $(`#divUkPostal`).show();
+        $(`#divProvince`).hide();
+        $(`#divState`).hide();
+        $(`#divzip`).hide();
+        $(`#divPostal`).hide();
+    };
+});
+
+
+// in shipping details hide province/state/postal/zip code until a country is selected
+$(`#divsProvince`).hide();
+$(`#divsState`).hide();
+$(`#divsPostal`).hide();
+$(`#divszip`).hide();
+$(`#divsUkPostal`).hide();
+
+$(`#scountry`).change(function () {
+    let selectedCountry = $(`#scountry`).val();
+    if (selectedCountry === "") {
+        $(`#divsProvince`).hide();
+        $(`#divsState`).hide();
+        $(`#divsPostal`).hide();
+        $(`#divszip`).hide();
+        $(`#divsUkPostal`).hide();
+    } else if (selectedCountry === "CAN") {
+        $(`#divsProvince`).show();
+        $(`#divsPostal`).show();
+        $(`#divsState`).hide();
+        $(`#divszip`).hide();
+        $(`#divsUkPostal`).hide();
+    } else if (selectedCountry === "USA") {
+        $(`#divsState`).show();
+        $(`#divsProvince`).hide();
+        $(`#divszip`).show();
+        $(`#divsPostal`).hide();
+        $(`#divsUkPostal`).hide();
+    } else if (selectedCountry === "UK") {
+        $(`#divsUkPostal`).show();
+        $(`#divsProvince`).hide();
+        $(`#divsState`).hide();
+        $(`#divszip`).hide();
+        $(`#divsPostal`).hide();
+    };
+});
 
 function validatePayment() {
     let ccard = $(`#cc-number`).val();              // the entered credit card number
@@ -204,8 +314,6 @@ function validatePayment() {
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
     currentYear = currentYear.toString().substring(2); // get current year as two digit YY
-
-
 
     let cardNumOk = false; // cardNumOk, mmYYok, CVVok are all booleans to check to see if form inputs are valid 
     let mmYYok = false;
@@ -269,8 +377,11 @@ function validateBilling() {
     let userAddress2 = $(`#address2`).val();          // Entered apartment/unit #
     let userCity = $(`#city`).val();                  // Entered city
     let userProvince = $(`#province`).val();          // Entered province
+    let userState = $(`#state`).val();                // Entered shipping state
     let userCountry = $(`#country`).val();            // Entered country
     let userPostal = $(`#postal`).val();              // Entered postal code
+    let userZip = $(`#zip`).val();                    // Entered zip code
+    let userUkPostal = $(`ukpostal`).val();           // Entered UK postal code
     let userPhone = $(`#phone`).val();                // Entered phone num
     let userEmail = $(`#email`).val();                // Entered email
 
@@ -279,6 +390,8 @@ function validateBilling() {
     let goodPostal = /^([A-CEG-HJ-NPR-TVX-Ya-ceg-hj-npr-tvx-y]{1})([0-9]{1})([A-CEG-HJ-NPR-TV-Za-ceg-hj-npr-tv-z]{1})[ -]?([0-9]{1})([A-CEG-HJ-NPR-TV-Za-ceg-hj-npr-tv-z]{1})([0-9]{1})/;
     let goodPhone = /^\s*(?:\+?([1]))?[-. (]*(?!^.11)([2-9]{1}[0-8]{1}[0-9]{1})[-. )]*(\d{3})[-. ]*(\d{4})\s*$/;
     let goodEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.\w+$/;
+    let goodZip = /^\d{5}(?:[- ]?\d{4})?$/;
+    let goodUkPostal = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
 
     // initially set validity boolean to false
     let fNameOk = false; 
@@ -286,8 +399,11 @@ function validateBilling() {
     let addressOk = false;
     let cityOk = false;
     let provinceOk = false;
+    let stateOk = false;
     let countryOk = false;
     let postalOk = false;
+    let zipOk = false;
+    let ukPostalOk = false;
     let phoneOk = false;
     let emailOk = false;
 
@@ -341,6 +457,16 @@ function validateBilling() {
         $(`#valid-province`).show();
     }
 
+    if (userState === "") {
+        stateOk = false;
+        $(`#invalid-state`).show();
+        $(`#valid-state`).hide();
+    } else {
+        stateOk = true;
+        $(`#invalid-state`).hide();
+        $(`#valid-state`).show();
+    }
+
     if (userCountry === "") {
         countryOk = false;
         $(`#invalid-country`).show();
@@ -359,6 +485,26 @@ function validateBilling() {
         postalOk = false;
         $(`#invalid-postal`).show();
         $(`#valid-postal`).hide();
+    }
+
+    if (goodZip.test(userZip)) {
+        zipOk = true;
+        $(`#invalid-zip`).hide();
+        $(`#valid-zip`).show();
+    } else {
+        zipOk = false;
+        $(`#invalid-zip`).show();
+        $(`#valid-zip`).hide();
+    }
+
+    if (goodUkPostal.test(userUkPostal)) {
+        ukPostalOk = true;
+        $(`#invalid-ukpostal`).hide();
+        $(`#valid-ukpostal`).show();
+    } else {
+        ukPostalOk = false;
+        $(`#invalid-ukpostal`).show();
+        $(`#valid-ukpostal`).hide();
     }
 
     if (goodPhone.test(userPhone)) {
@@ -380,146 +526,178 @@ function validateBilling() {
         $(`#invalid-email`).show();
         $(`#valid-email`).hide();
     }
-
-    if (fNameOk && lNameOk && addressOk && cityOk && provinceOk && countryOk && postalOk && phoneOk && emailOk) { 
-        // if all sections have been completed correctly, then allow click to the next tab
+    if (userCountry == "UK") {
+        if (fNameOk && lNameOk && addressOk && cityOk && ukPostalOk && phoneOk && emailOk) { 
+            // if all sections have been completed correctly for the UK, then allow click to the next tab
+            $(`#pills-shipping-tab`).click();
+        }
+    } else if (fNameOk && lNameOk && addressOk && cityOk && (provinceOk || stateOk) && countryOk && (postalOk || zipOk) && phoneOk && emailOk) { 
+        // if all sections have been completed correctly for Canada or the US, then allow click to the next tab
         $(`#pills-shipping-tab`).click();
     }
 
 }
 
-function validateShipping() {
-    let userFName = $(`#firstName`).val();            // Entered first name
-    let userLName = $(`#lastName`).val();             // Entered last name
-    let userAddress = $(`#address`).val();            // Entered address
-    let userAddress2 = $(`#address2`).val();          // Entered apartment/unit #
-    let userCity = $(`#city`).val();                  // Entered city
-    let userProvince = $(`#province`).val();          // Entered province
-    let userCountry = $(`#country`).val();            // Entered country
-    let userPostal = $(`#postal`).val();              // Entered postal code
-    let userPhone = $(`#phone`).val();                // Entered phone num
-    let userEmail = $(`#email`).val();                // Entered email
-
-    let goodAddress = /^\s*\S+(?:\s+\S+){2}/;
-    let goodCity = /^[a-zA-Z',.\s-]{1,25}$/;
-    let goodPostal = /^([A-CEG-HJ-NPR-TVX-Ya-ceg-hj-npr-tvx-y]{1})([0-9]{1})([A-CEG-HJ-NPR-TV-Za-ceg-hj-npr-tv-z]{1})[ -]?([0-9]{1})([A-CEG-HJ-NPR-TV-Za-ceg-hj-npr-tv-z]{1})([0-9]{1})/;
-    let goodPhone = /^\s*(?:\+?([1]))?[-. (]*(?!^.11)([2-9]{1}[0-8]{1}[0-9]{1})[-. )]*(\d{3})[-. ]*(\d{4})\s*$/;
-    let goodEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.\w+$/;
-
-    // initially set validity boolean to false
-    let fNameOk = false; 
-    let lNameOk = false;
-    let addressOk = false;
-    let cityOk = false;
-    let provinceOk = false;
-    let countryOk = false;
-    let postalOk = false;
-    let phoneOk = false;
-    let emailOk = false;
-
     // check to see if user has checked/unchecked the "shipping address is same as billing address" box, if so, set all validity checks to true
     $(`#same-address`).change(function() {
         if(this.checked) {
-            fNameOk = lNameOk = addressOk =  cityOk = provinceOk = countryOk = phoneOk = emailOk = true;
+            sfNameOk = slNameOk = saddressOk =  scityOk = sprovinceOk = sstateOk = scountryOk = sphoneOk = true;
             $(`#shippingForm`).hide();
         } else {
             $(`#shippingForm`).show();
     }});
 
-    if (userFName === "") {
-        fNameOk = false;
-        $(`#invalid-fname`).show();
-        $(`#valid-fname`).hide();
+function validateShipping() {
+    let suserFName = $(`#sfirstName`).val();            // Entered shipping first name
+    let suserLName = $(`#slastName`).val();             // Entered shipping last name
+    let suserAddress = $(`#saddress`).val();            // Entered shipping address
+    let suserAddress2 = $(`#saddress2`).val();          // Entered shipping apartment/unit #
+    let suserCity = $(`#scity`).val();                  // Entered shipping city
+    let suserProvince = $(`#sprovince`).val();          // Entered shipping province
+    let suserState = $(`#sstate`).val();                // Entered shipping state
+    let suserCountry = $(`#scountry`).val();            // Entered shipping country
+    let suserPostal = $(`#spostal`).val();              // Entered shipping postal code
+    let suserZip = $(`#szip`).val();                    // Entered zip code
+    let susersUkPostal = $(`sukpostal`).val();           // Entered UK postal code
+    let suserPhone = $(`#sphone`).val();                // Entered shipping phone num
+
+    let goodAddress = /^\s*\S+(?:\s+\S+){2}/;
+    let goodCity = /^[a-zA-Z',.\s-]{1,25}$/;
+    let goodPostal = /^([A-CEG-HJ-NPR-TVX-Ya-ceg-hj-npr-tvx-y]{1})([0-9]{1})([A-CEG-HJ-NPR-TV-Za-ceg-hj-npr-tv-z]{1})[ -]?([0-9]{1})([A-CEG-HJ-NPR-TV-Za-ceg-hj-npr-tv-z]{1})([0-9]{1})/;
+    let goodPhone = /^\s*(?:\+?([1]))?[-. (]*(?!^.11)([2-9]{1}[0-8]{1}[0-9]{1})[-. )]*(\d{3})[-. ]*(\d{4})\s*$/;
+    let goodZip = /^\d{5}(?:[- ]?\d{4})?$/;
+    let goodUkPostal = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/;
+
+    // initially set validity boolean to false
+    let sfNameOk = false; 
+    let slNameOk = false;
+    let saddressOk = false;
+    let scityOk = false;
+    let sprovinceOk = false;
+    let sstateOk = false;
+    let scountryOk = false;
+    let spostalOk = false;
+    let szipOk = false;
+    let sukPostalOk = false;
+    let sphoneOk = false;
+
+    if (suserFName === "") {
+        sfNameOk = false;
+        $(`#invalid-sfname`).show();
+        $(`#valid-sfname`).hide();
     } else {
-        fNameOk = true;
-        $(`#invalid-fname`).hide();
-        $(`#valid-fname`).show();
+        sfNameOk = true;
+        $(`#invalid-sfname`).hide();
+        $(`#valid-sfname`).show();
     }
 
-    if (userLName === "") {
-        lNameOk = false;
-        $(`#invalid-lname`).show();
-        $(`#valid-lname`).hide();
+    if (suserLName === "") {
+        slNameOk = false;
+        $(`#invalid-slname`).show();
+        $(`#valid-slname`).hide();
     } else {
-        lNameOk = true;
-        $(`#invalid-lname`).hide();
-        $(`#valid-lname`).show();
+        slNameOk = true;
+        $(`#invalid-slname`).hide();
+        $(`#valid-slname`).show();
     }
 
-    if (goodAddress.test(userAddress)) {
-        addressOk = true;
-        $(`#invalid-address`).hide();
-        $(`#valid-address`).show();
+    if (goodAddress.test(suserAddress)) {
+        saddressOk = true;
+        $(`#invalid-saddress`).hide();
+        $(`#valid-saddress`).show();
     } else {
-        addressOk = false;
-        $(`#invalid-address`).show();
-        $(`#valid-address`).hide();
+        saddressOk = false;
+        $(`#invalid-saddress`).show();
+        $(`#valid-saddress`).hide();
     }
 
-    if (goodCity.test(userCity)) {
-        cityOk = true;
-        $(`#invalid-city`).hide();
-        $(`#valid-city`).show();
+    if (goodCity.test(suserCity)) {
+        scityOk = true;
+        $(`#invalid-scity`).hide();
+        $(`#valid-scity`).show();
     } else {
-        cityOk = false;
-        $(`#invalid-city`).show();
-        $(`#valid-city`).hide();
+        scityOk = false;
+        $(`#invalid-scity`).show();
+        $(`#valid-scity`).hide();
     }
 
-    if (userProvince === "") {
-        provinceOk = false;
-        $(`#invalid-province`).show();
-        $(`#valid-province`).hide();
+    if (suserProvince === "") {
+        sprovinceOk = false;
+        $(`#invalid-sprovince`).show();
+        $(`#valid-sprovince`).hide();
     } else {
-        provinceOk = true;
-        $(`#invalid-province`).hide();
-        $(`#valid-province`).show();
+        sprovinceOk = true;
+        $(`#invalid-sprovince`).hide();
+        $(`#valid-sprovince`).show();
     }
 
-    if (userCountry === "") {
-        countryOk = false;
-        $(`#invalid-country`).show();
-        $(`#valid-country`).hide();
+    if (suserState === "") {
+        sstateOk = false;
+        $(`#invalid-sstate`).show();
+        $(`#valid-sstate`).hide();
     } else {
-        countryOk = true;
-        $(`#invalid-country`).hide();
-        $(`#valid-country`).show();
+        sstateOk = true;
+        $(`#invalid-sstate`).hide();
+        $(`#valid-sstate`).show();
     }
 
-    if (goodPostal.test(userPostal)) {
-        postalOk = true;
-        $(`#invalid-postal`).hide();
-        $(`#valid-postal`).show();
+    if (suserCountry === "") {
+        scountryOk = false;
+        $(`#invalid-scountry`).show();
+        $(`#valid-scountry`).hide();
     } else {
-        postalOk = false;
-        $(`#invalid-postal`).show();
-        $(`#valid-postal`).hide();
+        scountryOk = true;
+        $(`#invalid-scountry`).hide();
+        $(`#valid-scountry`).show();
     }
 
-    if (goodPhone.test(userPhone)) {
-        phoneOk = true;
-        $(`#invalid-phone`).hide();
-        $(`#valid-phone`).show();
+    if (goodPostal.test(suserPostal)) {
+        spostalOk = true;
+        $(`#invalid-spostal`).hide();
+        $(`#valid-spostal`).show();
     } else {
-        phoneOk = false;
-        $(`#invalid-phone`).show();
-        $(`#valid-phone`).hide();
+        spostalOk = false;
+        $(`#invalid-spostal`).show();
+        $(`#valid-spostal`).hide();
     }
 
-    if (goodEmail.test(userEmail)) {
-        emailOk = true;
-        $(`#invalid-email`).hide();
-        $(`#valid-email`).show();
+    if (goodZip.test(suserZip)) {
+        szipOk = true;
+        $(`#invalid-szip`).hide();
+        $(`#valid-szip`).show();
     } else {
-        emailOk = false;
-        $(`#invalid-email`).show();
-        $(`#valid-email`).hide();
+        szipOk = false;
+        $(`#invalid-szip`).show();
+        $(`#valid-szip`).hide();
     }
 
+    if (goodUkPostal.test(susersUkPostal)) {
+        sukPostalOk = true;
+        $(`#invalid-sukpostal`).hide();
+        $(`#valid-sukpostal`).show();
+    } else {
+        sukPostalOk = false;
+        $(`#invalid-sukpostal`).show();
+        $(`#valid-sukpostal`).hide();
+    }
 
+    if (goodPhone.test(suserPhone)) {
+        sphoneOk = true;
+        $(`#invalid-sphone`).hide();
+        $(`#valid-sphone`).show();
+    } else {
+        sphoneOk = false;
+        $(`#invalid-sphone`).show();
+        $(`#valid-sphone`).hide();
+    }
 
-    if ((fNameOk && lNameOk && addressOk && cityOk && provinceOk && countryOk && postalOk && phoneOk && emailOk)) {
-        // if all sections have been completed correctly, allow click to the next tab
+    if (suserCountry == "UK") {
+        if (sfNameOk && slNameOk && saddressOk && scityOk && sukPostalOk && sphoneOk && semailOk) { 
+            // if all sections have been completed correctly for the UK, then allow click to the next tab
+            $(`#pills-confirmation-tab`).click();
+        }
+    } else if (sfNameOk && slNameOk && saddressOk && scityOk && (sprovinceOk || sstateOk) && scountryOk && (spostalOk || szipOk) && sphoneOk) { 
+        // if all sections have been completed correctly for Canada or the US, then allow click to the next tab
         $(`#pills-confirmation-tab`).click();
     }
 }

@@ -39,12 +39,19 @@ button {
 }
 
 #invalid-cc, #invalid-mm, #invalid-yy, #invalid-cvv, #invalid-fname, #invalid-lname, 
-#invalid-address, #invalid-city, #invalid-province, #invalid-country, #invalid-postal, 
-#invalid-phone, #invalid-email  {
+#invalid-address, #invalid-city, #invalid-province, #invalid-state, #invalid-country, #invalid-postal, 
+#invalid-phone, #invalid-email, #invalid-sfname, #invalid-slname, 
+#invalid-saddress, #invalid-scity, #invalid-sprovince, #invalid-scountry, #invalid-spostal,
+#invalid-zip, #invalid-ukpostal, #invalid-sukpostal, #invalid-szip, #invalid-sphone  {
     color: red;
 }
 
 #valid-cc, #valid-mm, #valid-yy, #valid-cvv, #valid-fname, #valid-lname, #valid-address, 
-#valid-city, #valid-province, #valid-country, #valid-postal, #valid-phone, #valid-email {
+#valid-city, #valid-province, #valid-state, #valid-country, #valid-postal, #valid-phone, #valid-email, 
+#valid-sfname, #valid-slname, #valid-saddress, #valid-scity, #valid-sprovince, #valid-scountry, 
+#valid-spostal, #valid-zip, #valid-ukpostal, #valid-sukpostal, #valid-szip, #valid-sphone {
     color: green;
+}
+.offcanvas {
+    --bs-offcanvas-width: 650px;
 }

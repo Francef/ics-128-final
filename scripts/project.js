@@ -1,29 +1,20 @@
 class Catalog {
-    constructor() {
-        this.product_data = [];
-        this.load_data_with_fetch();
-        this.currency_data = {};
-        this.currency = get_cookie("cart-currency"); //NOT SURE ABOUT THIS!!
-        this.symbols = { cad: "$", usd: "US$", gbp: "&#163;"};
-        if (this.currency == "" || this.currency == undefined || this.currency == null) {
-            this.currency == "cad";
-        }
-    }
     API_URL = "https://fakestoreapi.com/products";
     CURRENCY_API = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/cad.json";
-    BACKUP_API_URL = "https://deepblue.camosun.bc.ca/~c0180354/ics128/final/fakestoreapi.json";
-    
-    load_currency_data() {
-        fetch(this.CURRENCY_API).
-            then(response => response.json()).
-            then((json) => {
-                this.currency = json;
-                if (this.product_data > 0) {
-                    this.currency = "cad";
-                    this.render_catalog();
-                }
-            });
+   /* BACKUP_API_URL = "https://deepblue.camosun.bc.ca/~c0180354/ics128/final/fakestoreapi.json"; */
+    constructor() {
+        this.product_data = [];
+        this.currency_data = {};
+        this.currSymbols = { cad: "$", usd: "US$", gbp: "&#163;" };
+        this.load_currency_data();
+        this.load_data_with_fetch();
+        this.currency = get_cookie("cart-currency");
+        if (this.currency == "" || this.currency == undefined || this.currency == null) {
+            this.currency = "cad";
+        }
     }
+
+
     /* Loads the item data and calls to render_catalog() */
     load_data_with_fetch() {
         fetch(this.API_URL).
@@ -38,26 +29,39 @@ class Catalog {
                 })
             });
     }
+
+    load_currency_data() {
+        fetch(this.CURRENCY_API).
+            then(response => response.json()).
+            then((json) => {
+                this.currency_data = json;
+                if (this.product_data > 0) {
+                    this.render_catalog();
+                }
+            });
+    }
+    
     /* renders the items and data on the page */
 
     render_catalog() {
+        $(`#catalog`).html("");
         for (let product of this.product_data) {
             let { id, title, description, image, price } = product;
-            price = parseFloat(price).toFixed(2);
-            //let conversion = this.currency_data[`cad`][this.currency]; //add index for usd and gbp
-            //price = price * conversion;
+            let conversion_rate = this.currency_data['cad'][this.currency];
 
-            // let symbol = this.symbols[this.currency]; NEED TO FIX THIS
+            price = price * conversion_rate;
+            price = parseFloat(price).toFixed(2);
+            let symbol = this.currSymbols[this.currency];
             let card = `<div class="col-sm-6 col-lg-4 mb-4"><div class="card">
 					<img src="${image}" alt="${title}">
 					<div class="card-body">
 						<h5 class="card-title">${title}</h5>
 						<p class="card-text">${description}</p>
-                        <p class="price">${price}</p>
+                        <p class="price">${symbol}${price}</p>
                         <button class="btn btn-success addToCart" data-id="${id}">Add to Cart</button>
 					</div>
 				</div>
-                </div>`; // need to add ${symbol} before ${price} but not working yet
+                </div>`; 
             document.querySelector(`#catalog`).innerHTML += card;
         }
         let catalog_container = document.getElementById("catalog"); // assuming your target is <div class='row' id='catalog'>
@@ -87,19 +91,37 @@ class Catalog {
     renderCartItems() {
         let basket = "";
         var basketItems = get_cookie("shopping_cart_items");
-
+        let orderSubtotal = 0;
+        let currSymbol = this.currSymbols[this.currency];
+        
         for (let product_id in basketItems) {
             let product = this.getItem(product_id);
             let itemCount = basketItems[product_id];
-            product.price = parseFloat(product.price).toFixed(2);
-            let itemSubtotal = parseFloat(product.price * itemCount).toFixed(2);
+
+            let conversion_rate = this.currency_data['cad'][this.currency];
+            
+            let price = product.price * conversion_rate;
+            price = parseFloat(price).toFixed(2);
+
+            let itemSubtotal = parseFloat(price * itemCount).toFixed(2);
+            orderSubtotal = orderSubtotal + (price * itemCount);
+
             basket += `<tr><td><button class='btn btn-danger deleteItem' data-id='${product_id}'><span class='material-symbols-outlined'>
-            delete </span></button><td>${product.title}</td><td>${itemCount}</td><td>${product.price}</td><td>${itemSubtotal}</td></tr>`;
+            delete </span></button><td>${product.title}</td><td>${itemCount}</td><td>${currSymbol}${price}</td><td>${currSymbol}${itemSubtotal}</td></tr>`;
         }
+        if (basket != "") {
+        orderSubtotal = parseFloat(orderSubtotal).toFixed(2);
+        basket += `<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Order Subtotal</td><td>${currSymbol}${orderSubtotal}</td></tr>`
+        }
+
         if (basket!= "") {
             basket = `<table id='table' class='table'><tr><th>&nbsp;</th><th>Item</th><th>Qty</th><th>Price</th><th>Item Subtotal</th></tr>` + basket + `</table>`;
+            $(`#checkout`).show();              // show the checkout, empty cart buttons if basket has items
+            $(`#emptyCart`).show(); 
         } else {
             basket = "Your cart is empty.";
+            $(`#checkout`).hide();              // hide the checkout, empty cart buttons if basket has no items
+            $(`#emptyCart`).hide();
         }
         $(`#loadShoppingCart`).html(basket);
 
@@ -125,9 +147,15 @@ class Catalog {
         set_cookie("shopping_cart_items", basketItems)
     }
 
-add_event_handlers() {
+    setCurrency(currency) {
+        this.currency = currency;
+        set_cookie(`cart-currency`, currency);
+        this.render_catalog();
+        this.renderCartItems();
+    }
 
- //let data = get_cookie("shopping_cart_items");
+
+add_event_handlers() {
 
  $(".addToCart").click(function() {
     //get the product id that had its "add to cart" button clicked
@@ -155,6 +183,10 @@ add_event_handlers() {
 $(`#viewCart`).click(function() {
     catalog.renderCartItems();
 });
+$(`#selectCurrency`).on(`change`, function() {
+    catalog.setCurrency($(this).val());
+});
+
 
 
 }

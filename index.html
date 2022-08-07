@@ -112,7 +112,7 @@
 							  </div>
 							</form>
 
-							<button type="button" id="continueToBilling" class="btn btn-primary" onclick="validatePayment()">Continue
+							<button type="button" id="continueToBilling" class="btn btn-primary" onclick="catalog.validatePayment()">Continue
 							</button>
 						</div>
 						<!-- End payment tab-->
@@ -149,8 +149,8 @@
 									<label for="country">Country</label>
 									<select class="custom-select d-block w-100" id="country" required="">
 									  <option value="">Choose...</option>
-									  <option value="CAN">Canada</option>
-									  <option value="USA">United States</option>
+									  <option value="CA">Canada</option>
+									  <option value="US">United States</option>
 									  <option value="UK">United Kingdom</option>
 									</select>
 									<div id="invalid-country">
@@ -203,7 +203,7 @@
 										<option value="NS">Nova Scotia</option>
 										<option value="NU">Nunavut</option>
 										<option value="ON">Ontario</option>
-										<option value="PEI">Prince Edward Island</option>
+										<option value="PE">Prince Edward Island</option>
 										<option value="QC">Quebec</option>
 										<option value="SK">Saskatchewan</option>
 										<option value="YT">Yukon Territory</option>
@@ -216,7 +216,6 @@
 									  </div>
 								</div>
 							
-
 							<div class="col-md-4 mb-3" id="divState">
 								<label for="state">State</label>
 								<select id="state" name="state">
@@ -344,7 +343,7 @@
 								  </div>
 							  </div>
 							  </form>
-							  <button type="button" id="continueToShipping" class="btn btn-primary" onclick="validateBilling()">Continue
+							  <button type="button" id="continueToShipping" class="btn btn-primary" onclick="catalog.validateBilling()">Continue
 							</button>
 						</div>
 						<!-- End billing tab-->
@@ -387,8 +386,8 @@
 											<label for="scountry">Country</label>
 											<select class="custom-select d-block w-100" id="scountry" required="">
 											  <option value="">Choose...</option>
-											  <option value="CAN">Canada</option>
-											  <option value="USA">United States</option>
+											  <option value="CA">Canada</option>
+											  <option value="US">United States</option>
 											  <option value="UK">United Kingdom</option>
 											</select>
 											<div id="invalid-scountry">
@@ -430,7 +429,7 @@
 		
 										<div class="col-md-4 mb-3" id="divsProvince">
 											<label for="sprovince">Province/Territory</label>
-											<select id="sprovince" name="province">
+											<select id="sprovince">
 												<option value="">Select</option>
 												<option value="AB">Alberta</option>
 												<option value="BC">British Columbia</option>
@@ -441,7 +440,7 @@
 												<option value="NS">Nova Scotia</option>
 												<option value="NU">Nunavut</option>
 												<option value="ON">Ontario</option>
-												<option value="PEI">Prince Edward Island</option>
+												<option value="PE">Prince Edward Island</option>
 												<option value="QC">Quebec</option>
 												<option value="SK">Saskatchewan</option>
 												<option value="YT">Yukon Territory</option>
@@ -456,7 +455,7 @@
 
 										<div class="col-md-4 mb-3" id="divsState">
 											<label for="sstate">State</label>
-											<select id="sstate" name="state">
+											<select id="sstate">
 												<option value="">Select</option>
 												<option value="AL">Alabama</option>
 												<option value="AK">Alaska</option>
@@ -569,7 +568,7 @@
 										  </div>
 									  </div>
 									  </form>
-							  <button type="button" id="continueToConfirmation" class="btn btn-primary" onclick="validateShipping()">Continue
+							  <button type="button" id="continueToConfirmation" class="btn btn-primary" onclick="catalog.validateShipping()">Continue
 							</button>
 						</div>
 						<!-- End shipping tab-->
@@ -578,7 +577,11 @@
 						<div class="tab-pane fade" id="confirmation" role="tabpanel" aria-labelledby="pills-confirmation-tab">
 							
 							<h5>Order Confirmation</h5>
-						
+
+							<div id="orderTotals"></div>
+
+							<button type="button" id="completeOrder" class="btn btn-primary">Complete Order Now
+							</button>
 						</div>
 						<!-- End confirmation tab-->
 
@@ -587,12 +590,49 @@
 		</div>
 	</div>
 	<!--end modal-->
+
+	<!-- Successful submission modal -->
+	<div class="modal" tabindex="-1" id="successfulSubmission">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Modal title</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			  <p>Thank you for your order! You will receive an email shortly with the details of your order.</p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+	<!-- Usuccessful submission modal -->
+
+	<div class="modal" tabindex="-1" id="unsuccessfulSubmission">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">Modal title</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" id="errorMessage">
+			  <p>There is an error with submission data, please verify entered information and try again.</p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
 	<div class="container">
 		<br>
 		<div class="row" data-masonry='{"percentPosition": true }' id="catalog">
 		</div>
 	</div>
-
 
 	<script src="https://deepblue.camosun.bc.ca/~c0180354/ics128/final/cookie-manager.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
@@ -605,5 +645,4 @@
 		async></script>
 	<script src="scripts/project.js"></script>
 </body>
-
 </html>
